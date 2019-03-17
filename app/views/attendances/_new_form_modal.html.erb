@@ -1,0 +1,65 @@
+<div class="modal fade" id="modalAttForm" tabindex="-1" role="dialog" aria-labelledby="registrarAsistencia">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">Registrar Asistencia</h4>
+      </div>
+      <%= form_with url: attendances_path, local: true, method: :post do |form| %>
+        <div class="modal-body">
+          <div class="form-group">
+            <i class="fa fa-user prefix grey-text"></i>
+            <label class="control-label" data-error="wrong" data-success="right" for="form1">Nombre</label>
+            <br>
+            <%= form.select "attendance[user_id]", @users.map{ |u| [ "#{u['firstname'].capitalize} #{u['lastname'].capitalize}", u['id']]},{}, {class:'form-control validate', id:'form1'} %>
+          </div>
+
+          <div class="form-group">
+            <i class="fa fa-calendar-o prefix grey-text"></i>
+            <label class="control-label" data-error="wrong" data-success="right" for="fechaAsistencia">Fecha Asistencia</label>
+            <br>
+            <%= form.text_field "attendance[attendance_date]", value: Date.today.strftime("%d/%m/%Y"), class:'form-control validate datetimepicker', id:'fechaAsistencia'%>
+          </div>
+
+          <div class="form-group">
+            <i class="fa fa-clock-o prefix grey-text"></i>
+            <label class="control-label" data-error="wrong" data-success="right" for="form2">Entrada</label>
+            <br>
+            <%= form.text_field "attendance[checkin]", class:'form-control validate datetimepicker', id:'form2' %>
+          </div>
+
+          <div class="form-group">
+            <i class="fa fa-clock-o prefix grey-text"></i>
+            <label class="control-label" data-error="wrong" data-success="right" for="form3">Salida</label>
+            <br>
+            <%= form.text_field "attendance[checkout]", class:'form-control validate datetimepicker', id:'form3'%>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= form.submit "Enviar", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $('document').ready(function(){
+
+    $("#form3, #form2").bootstrapMaterialDatePicker({
+      format : 'HH:mm:ss', 
+      lang : 'es', 
+      weekStart : 1,
+      date: false
+    });
+    
+    $('#fechaAsistencia').bootstrapMaterialDatePicker({ 
+      time: false,
+      format : 'DD/MM/YYYY',
+      lang : 'es', 
+      weekStart : 1
+    });
+  });
+</script>

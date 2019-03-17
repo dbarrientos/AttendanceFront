@@ -1,0 +1,54 @@
+<h1>
+  Attendances
+  <% if session[:ad] %>
+    <%= link_to new_attendance_path, remote: true, class: "btn pull-right btn-success" do %>
+      <i class="material-icons" style="font-size: 40px;">playlist_add</i>
+    <% end %>
+  <% end %>
+</h1>
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Fecha Asistencia</th>
+        <th>Nombre Empleado</th>
+        <th>Hora Entrada</th>
+        <th>Hora Salida</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @attendances.each do |attendance| %>
+        <tr>
+          <td> <%= attendance["id"] %></td>
+          <td> <%= attendance["attendance_date"].to_date.strftime("%d/%m/%Y") %></td>
+          <td> <%= "#{attendance['user']['firstname'].capitalize} #{attendance['user']['lastname'].capitalize}" %></td>
+          <td> <%= attendance["checkin"].to_datetime.strftime("%H:%M") %></td>
+          <td> <%= attendance["checkout"].nil? ? "Pendiente" : attendance["checkout"].to_datetime.strftime("%H:%M")%></td>
+          <td> 
+            <% if attendance["checkout"].nil? %>
+              <%= link_to edit_attendance_path(attendance['id']), class: "checkout btn btn-success", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
+                <i class="material-icons">transfer_within_a_station</i>
+              <% end %>
+            <% else %>
+              <%= link_to "Editar", edit_attendance_path(attendance['id']), class: "edit btn btn-warning", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
+                <i class="material-icons">edit</i>
+              <% end %>
+            <% end %>
+            <%= link_to attendance_path(attendance['id']), class: "delete btn btn-danger", method: :delete, data: {confirm: "Esta acción es irreversible. ¿Desea continuar?"} do %>
+              <i class="material-icons">delete</i>
+            <% end %>
+          </td>
+          <!-- <td><%#= link_to 'Show', attendance %></td>
+          <td><%#= link_to 'Edit', edit_attendance_path(attendance) %></td>
+          <td><%#= link_to 'Destroy', attendance, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+<div id="modal_att"></div>
+

@@ -1,0 +1,51 @@
+<div class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= image_tag 'logo-wh.jpg', height: 63.75 %>
+      <a class="navbar-brand" href="javascript:void(0)"></a>
+    </div>
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+      <ul class="nav navbar-nav">
+        <% if session[:ad] %>
+          <li class="dropdown">
+          <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons prefix grey-text">contacts</i> Usuarios
+            <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Lista usuarios', users_path %></li>
+            <li><%= link_to 'Crear', new_user_path, remote: true%></li>
+          </ul>
+        </li>
+        <% end %>
+        <li class="dropdown">
+          <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons prefix grey-text">event_available</i> Asistencias
+            <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><%= link_to 'Lista Asistencias', attendances_path %></li>
+            <% if session[:ad] %>
+              <li><%= link_to 'Crear', new_attendance_path, remote: true%></li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="javascript:void(0);"><i class="material-icons prefix grey-text">assessment</i> Reportes</a></li>
+        <li class="dropdown">
+          <a href="javascript:void(0);" data-target="#" class="dropdown-toggle" data-toggle="dropdown"><i class="material-icons prefix grey-text">account_circle</i> <%= cookies.signed[:email] %> 
+            <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="javascript:void(0)"><i class="material-icons prefix grey-text">assignment_ind</i> Editar datos de usuario</a></li>
+            <li class="divider"></li>
+            <li>
+              <%= link_to "<i class='material-icons prefix grey-text'>exit_to_app</i> Cerrar Sesión".html_safe, login_log_out_path, method: :post %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

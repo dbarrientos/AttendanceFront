@@ -1,0 +1,22 @@
+{
+  "systemParams": "darwin-x64-57",
+  "modulesFolders": [
+    "vendor/assets/components"
+  ],
+  "flags": [],
+  "linkedModules": [],
+  "topLevelPatterns": [
+    "bootstrap@3.3.7",
+    "font-awesome@^4.7.0",
+    "jquery@1.12.4",
+    "moment@^2.24.0"
+  ],
+  "lockfileEntries": {
+    "bootstrap@3.3.7": "https://registry.yarnpkg.com/bootstrap/-/bootstrap-3.3.7.tgz#5a389394549f23330875a3b150656574f8a9eb71",
+    "font-awesome@^4.7.0": "https://registry.yarnpkg.com/font-awesome/-/font-awesome-4.7.0.tgz#8fa8cf0411a1a31afd07b06d2902bb9fc815a133",
+    "jquery@1.12.4": "https://registry.yarnpkg.com/jquery/-/jquery-1.12.4.tgz#01e1dfba290fe73deba77ceeacb0f9ba2fec9e0c",
+    "moment@^2.24.0": "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  },
+  "files": [],
+  "artifacts": {}
+}

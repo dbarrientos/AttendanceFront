@@ -1,0 +1,20 @@
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+    <!-- Tabs Titles -->
+
+    <!-- Icon -->
+    <div class="fadeIn first">
+      <%= image_tag "users.png", class:"rounded-circle", id: "icon", alt: "User Icon"%>
+      <hr>
+      <h2>Login User</h2>
+    </div>
+
+    <!-- Login Form -->
+    <%= form_with url: login_sign_in_user_path, local: true  do |form| %>
+      <%= form.email_field :email, class: 'fadeIn second', id:'login', placeholder: 'Email'%>
+      <%= form.password_field :password, class: 'fadeIn third', id: 'password', placeholder: 'Password'%>
+      <%= form.submit 'Log In', class: 'fadeIn fourth btn btn-raised btn-primary'%>
+    <% end %>
+
+  </div>
+</div>
