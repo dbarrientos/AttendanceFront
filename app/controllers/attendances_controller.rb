@@ -84,11 +84,26 @@ class AttendancesController < ApplicationController
     r = @api.destroy_attendance(params[:id])
     respond_to do |format|
       if r.code == 204
-        format.html { redirect_to attendances_url, notice: 'Attendance was successfully updated.' }
+        format.html { redirect_to attendances_url, notice: 'Attendance was successfully destroy.' }
       else
         response = JSON.parse(r.body)
         format.html { redirect_to attendances_url, alert: response['message']}
       end
+    end
+  end
+
+  def filter
+    options = {}
+    options[:user_id] = params[:user_id] if params[:user_id].present?
+    options[:date] = params[:date] if params[:date].present?
+    options[:inputDesde] = params[:inputDesde] if params[:inputDesde].present?
+    options[:inputHasta] = params[:inputHasta] if params[:inputHasta].present?
+    r = @api.filter_attendances(options)
+    if r.code == 200
+      response = JSON.parse(r.body)
+      @attendances = response
+    else
+      redirect_to login_sign_in_admin_path, alert: response['message']
     end
   end
 

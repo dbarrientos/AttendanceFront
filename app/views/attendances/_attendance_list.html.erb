@@ -1,0 +1,28 @@
+<% @attendances.each do |attendance| %>
+    <tr>
+      <td> <%= attendance["id"] %></td>
+      <td> <%= attendance["attendance_date"].to_date.strftime("%d/%m/%Y") %></td>
+      <td> <%= "#{attendance['user']['firstname'].capitalize} #{attendance['user']['lastname'].capitalize}" %></td>
+      <td> <%= attendance["checkin"].to_datetime.strftime("%H:%M") %></td>
+      <td> <%= attendance["checkout"].nil? ? "Pendiente" : attendance["checkout"].to_datetime.strftime("%H:%M")%></td>
+      <% if session[:ad] %>
+        <td>
+          <% if attendance["checkout"].nil? %>
+            <%= link_to edit_attendance_path(attendance['id']), class: "checkout btn btn-success", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
+              <i class="material-icons">transfer_within_a_station</i>
+            <% end %>
+          <% else %>
+            <%= link_to edit_attendance_path(attendance['id']), class: "edit btn btn-warning", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
+              <i class="material-icons">edit</i>
+            <% end %>
+          <% end %>
+          <%= link_to attendance_path(attendance['id']), class: "delete btn btn-danger", method: :delete, data: {confirm: "Esta acción es irreversible. ¿Desea continuar?"} do %>
+            <i class="material-icons">delete</i>
+          <% end %>
+        </td>
+      <% end %>
+      <!-- <td><%#= link_to 'Show', attendance %></td>
+      <td><%#= link_to 'Edit', edit_attendance_path(attendance) %></td>
+      <td><%#= link_to 'Destroy', attendance, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
+    </tr>
+  <% end %>

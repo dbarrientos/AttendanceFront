@@ -12,6 +12,7 @@
 //
 //= require jquery/dist/jquery
 //= require rails-ujs
+//= require bootstrap/js/tooltip
 //= require_tree ../../../vendor/assets/components/bootstrap/js
 //= require jquery.nouislider.min
 //= require bootstrap/dist/js/bootstrap

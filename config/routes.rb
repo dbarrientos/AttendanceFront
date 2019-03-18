@@ -10,7 +10,11 @@ Rails.application.routes.draw do
 
 
   resources :users
-  resources :attendances
+  resources :attendances do
+    collection do
+      post 'filter'
+    end
+  end
 
   root "login#admin"
 

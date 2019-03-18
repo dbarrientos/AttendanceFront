@@ -38,6 +38,9 @@ class RunaApi
     options = "?"
     options += "&usr=#{option[:user_id]}" unless option[:user_id].nil?
     options += "&a_date=#{option[:date]}" unless option[:date].nil?
+    options += "&a_date_from=#{option[:inputDesde]}" unless option[:inputDesde].nil?
+    options += "&a_date_to=#{option[:inputHasta]}" unless option[:inputHasta].nil?
+    
     RestClient.get @attendance_path + options, {content_type: :json, accept: :json, Authorization: @token}
   end
 

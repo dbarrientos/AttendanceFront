@@ -6,6 +6,37 @@
     <% end %>
   <% end %>
 </h1>
+<br>
+<%= form_with url: filter_attendances_path, method: :post do |form| %>
+  <h4>Filtros</h4>
+  <div class="row">
+    <% if session[:ad] %>
+      <div class="form-group is-empty col-md-12">
+        <label for="user_id" class="col-md-2 control-label">Usuario</label>
+        <div class="col-md-10">
+          <%= form.select :user_id, JSON.parse((@api.get_users).body).map{ |u| [ "#{u['firstname'].capitalize} #{u['lastname'].capitalize} - #{u['dni']}", u['id']]},{prompt: "Filtrar por usuario"}, {class:'form-control', id:'user_id'} %>
+        </div>
+      </div>
+    <% end %>
+    <div class="form-group is-empty col-md-4">
+      <label for="inputDesde" class="col-md-2 control-label">Desde</label>
+      <div class="col-md-10">
+        <%= form.text_field :inputDesde, class:'form-control', id:'inputDesde', placeholder:"Desde" %>
+      </div>
+    </div>
+    <div class="form-group is-empty col-md-4">
+      <label for="inputHasta" class="col-md-2 control-label">Hasta</label>
+      <div class="col-md-10">
+        <%= form.text_field :inputHasta, class:'form-control', id:'inputHasta', placeholder:"Hasta" %>
+      </div>
+    </div>
+    <div class="form-group col-md-4">
+      <%= link_to "Limpiar", attendances_path, class: "btn btn-danger col-md-5 btn-filter" %>
+      <%= form.submit "Filtrar", class: "btn btn-primary col-md-5 btn-filter" %>
+    </div>
+  </div>
+<% end %>
+<br>
 <div class="table-responsive">
   <table class="table table-striped table-hover">
     <thead>
@@ -15,40 +46,28 @@
         <th>Nombre Empleado</th>
         <th>Hora Entrada</th>
         <th>Hora Salida</th>
-        <th colspan="3"></th>
+        <% if session[:ad] %>
+          <th colspan="3"></th>
+        <% end %>
       </tr>
     </thead>
 
-    <tbody>
-      <% @attendances.each do |attendance| %>
-        <tr>
-          <td> <%= attendance["id"] %></td>
-          <td> <%= attendance["attendance_date"].to_date.strftime("%d/%m/%Y") %></td>
-          <td> <%= "#{attendance['user']['firstname'].capitalize} #{attendance['user']['lastname'].capitalize}" %></td>
-          <td> <%= attendance["checkin"].to_datetime.strftime("%H:%M") %></td>
-          <td> <%= attendance["checkout"].nil? ? "Pendiente" : attendance["checkout"].to_datetime.strftime("%H:%M")%></td>
-          <td> 
-            <% if attendance["checkout"].nil? %>
-              <%= link_to edit_attendance_path(attendance['id']), class: "checkout btn btn-success", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
-                <i class="material-icons">transfer_within_a_station</i>
-              <% end %>
-            <% else %>
-              <%= link_to "Editar", edit_attendance_path(attendance['id']), class: "edit btn btn-warning", data: {toggle: "modal", target: "#modalAttForm"}, remote: true do %>
-                <i class="material-icons">edit</i>
-              <% end %>
-            <% end %>
-            <%= link_to attendance_path(attendance['id']), class: "delete btn btn-danger", method: :delete, data: {confirm: "Esta acción es irreversible. ¿Desea continuar?"} do %>
-              <i class="material-icons">delete</i>
-            <% end %>
-          </td>
-          <!-- <td><%#= link_to 'Show', attendance %></td>
-          <td><%#= link_to 'Edit', edit_attendance_path(attendance) %></td>
-          <td><%#= link_to 'Destroy', attendance, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
-        </tr>
-      <% end %>
+    <tbody id="attendance_table">
+      <%= render "attendance_list"%> 
     </tbody>
   </table>
 </div>
 <br>
 <div id="modal_att"></div>
 
+<script>
+  $('document').ready(function(){
+    $('#inputDesde, #inputHasta').bootstrapMaterialDatePicker({ 
+      time: false,
+      format : 'DD/MM/YYYY',
+      lang : 'es', 
+      weekStart : 1,
+      maxDate : new Date()
+    });
+  });
+</script>

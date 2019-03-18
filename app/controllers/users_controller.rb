@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :authorized
   require 'rest-client'
   # GET /users
@@ -17,6 +16,13 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    r = @api.get_user(params[:id])
+    response = JSON.parse(r.body)
+    if r.code == 200
+      @user = response
+    else
+      redirect_to login_sign_in_admin_path, alert: response['message']
+    end
   end
 
   # GET /users/new

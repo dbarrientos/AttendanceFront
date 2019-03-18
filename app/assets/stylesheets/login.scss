@@ -255,3 +255,16 @@ input[type=text], input[type=email], input[type=password] {
 #icon {
   width:50%;
 }
+
+input.btn-filter, a.btn-filter{
+  padding: 10px;
+  margin: 5px;
+}
+
+@media (max-width: 320px)
+{
+  input[type=button], input[type=submit], input[type=reset] {
+    padding: 10px 30px;
+  }
+
+}
