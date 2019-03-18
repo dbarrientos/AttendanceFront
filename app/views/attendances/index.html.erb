@@ -1,5 +1,5 @@
 <h1>
-  Attendances
+  Listado de Asistencias
   <% if session[:ad] %>
     <%= link_to new_attendance_path, remote: true, class: "btn pull-right btn-success" do %>
       <i class="material-icons" style="font-size: 40px;">playlist_add</i>
@@ -58,7 +58,6 @@
   </table>
 </div>
 <br>
-<div id="modal_att"></div>
 
 <script>
   $('document').ready(function(){

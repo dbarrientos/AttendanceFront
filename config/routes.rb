@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   post 'login/log_out'
 
 
-  resources :users
+  resources :users  do
+    collection do
+      post 'filter'
+    end
+  end
   resources :attendances do
     collection do
       post 'filter'

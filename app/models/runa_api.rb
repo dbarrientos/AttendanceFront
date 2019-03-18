@@ -54,6 +54,7 @@ class RunaApi
   end
 
   def update_user(id, params)
+    params.delete(:password) if params[:password].nil? || params[:password] == ""
     RestClient.put @user_path + "/#{id}", params.to_json, {content_type: :json, accept: :json, Authorization: @token}
   end
 
@@ -68,6 +69,9 @@ class RunaApi
   def filter_users(option)
     options = "?"
     options += "&rl=#{option[:role]}" unless option[:role].nil?
+    options += "&firstname=#{option[:firstname]}" unless option[:firstname].nil?
+    options += "&lastname=#{option[:lastname]}" unless option[:lastname].nil?
+    options += "&dni=#{option[:dni]}" unless option[:dni].nil?
     RestClient.get @user_path + options, {content_type: :json, accept: :json, Authorization: @token}
   end
 

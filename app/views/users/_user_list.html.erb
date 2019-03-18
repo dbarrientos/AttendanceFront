@@ -1,0 +1,25 @@
+<% @users.each do |user| %>
+  <tr>
+    <td><%= user['id'] %></td>
+    <td><%= user['firstname'].capitalize if user['firstname'] %></td>
+    <td><%= user['lastname'].capitalize if user['lastname'] %></td>
+    <td><%= user['email'] %></td>
+    <td><%= user['role'] %></td>
+    <td>
+      <%= link_to user_path(user['id']), class: "show btn btn-info" do %>
+        <i class="material-icons">info</i>
+      <% end %>
+    </td>
+    <td>
+      <%= link_to edit_user_path(user['id']), class: "edit btn btn-warning", data: {toggle: "modal", target: "#modalUserForm"}, remote: true do %>
+        <i class="material-icons">edit</i>
+      <% end %>
+    </td>
+    <td>
+      <%= link_to user_path(user['id']), class: "delete btn btn-danger", method: :delete, data: {confirm: "Esta acción es irreversible. ¿Desea continuar?"} do %>
+        <i class="material-icons">delete</i>
+      <% end %>
+    </td>
+    <td></td>
+  </tr>
+<% end %>

@@ -57,7 +57,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    user_params.delete[:password] if user_params[:password].nil?
+    user_params.delete(:password) if user_params[:password].nil? || user_params[:password] == ""
     r = @api.update_user(params[:id], user_params)
     respond_to do |format|
       if r.code == 204
@@ -80,6 +80,21 @@ class UsersController < ApplicationController
         response = JSON.parse(r.body)
         format.html { redirect_to users_url, alert: response['message']}
       end
+    end
+  end
+
+  def filter
+    options = {}
+    options[:role] = params[:role] if params[:role].present?
+    options[:firstname] = params[:firstname] if params[:firstname].present?
+    options[:lastname] = params[:lastname] if params[:lastname].present?
+    options[:dni] = params[:dni] if params[:dni].present?
+    r = @api.filter_users(options)
+    if r.code == 200
+      response = JSON.parse(r.body)
+      @users = response
+    else
+      redirect_to login_sign_in_admin_path, alert: response['message']
     end
   end
 
